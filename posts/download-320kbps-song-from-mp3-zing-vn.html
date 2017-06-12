@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title> How to use Currently's Premium Themes for free? | Blog</title>
+        <title> Download 320Kbps song from mp3.zing.vn | Blog</title>
         <meta charset="utf-8">
         <meta http-equiv="content-type" content="text/html">
         <meta name=viewport content="initial-scale=1.0 maximum-scale=1.0">
@@ -46,35 +46,37 @@
         </div>
         <div class="container">
             <div class="main">
-                <h1 id="how-to-use-currently-s-premium-themes-for-free-">How to use Currently&#39;s Premium Themes for free?</h1>
-<p>To refresh my fat Chrome&#39;s new page, I switched from <a href="https://github.com/Code4Fap/2dayIsAGoodDay&quot;">&quot;2day is a good day&quot;</a> (my extension 🤣) to <a href="https://chrome.google.com/webstore/detail/currently/ojhmphdkpgbibohbnpbfiefkgieacjmh&quot;">&quot;Currently&quot;</a>. <code>Currently</code> impressed me at first look. It displays only time &amp; forecast information, but it&#39;s enough for me.
-After installing it, I found that I can choose some themes through <code>Options</code> page.
-Besides two free themes: <code>Classic</code>, the old style from the previous version of <code>Currently</code>, &amp; <code>Currently 2.0</code>, there are four themes which need paid to use.
-Fortunately, I found a small trick which let us use premium themes for free 💩</p>
-<h4 id="here-s-the-instruction-">Here&#39;s the instruction:</h4>
-<ul>
-<li><p>Open <code>Currently</code> option panel 😎
-<img src="/content/images/2017/03/Selection_192.png" alt=""></p>
-</li>
-<li><p>Choose your favourite theme 😤
-<img src="/content/images/2017/03/Selection_193.png" alt=""></p>
-</li>
-<li><p>Open <code>Chrome Dev Tools</code> by pressing <kbd>F12</kbd>. 😲
-<img src="/content/images/2017/03/Selection_194.png" alt=""></p>
-</li>
-<li><p>Copy &amp; paste this spell to <code>Console</code> tab 👻</p>
-<pre><code>document.querySelector(&#39;#themes-container &gt; div &gt; div &gt; div &gt; a.button.ng-hide&#39;).classList.remove(&#39;ng-hide&#39;);console.log(&#39;%cSUCCESS. Please click SAVE button.&#39;, &#39;background:#333; color:#fff; font-size:18px;&#39;);
-</code></pre><p>And run it by pressing <kbd>Enter</kbd>.
-<img src="/content/images/2017/03/Selection_195.png" alt=""></p>
-</li>
-<li><p>A magical <code>Save</code> button has just appeared next to <code>Buy</code> button.
-Click it, press <kbd>F12</kbd> again to turn off <code>Chrome Dev Tools</code> and enjoy that premium theme 🤗</p>
-<p><img src="/content/images/2017/03/Selection_196.png" alt="">
-<img src="/content/images/2017/03/Selection_198.png" alt=""></p>
-</li>
-</ul>
-<p>If you like this post, please feel free to spread it to your friends. Thank you so much 😻</p>
-<p>PS: Sorry Currently Team 🤧</p>
+                <h1 id="download-320kbps-song-from-mp3-zing-vn">Download 320Kbps song from mp3.zing.vn</h1>
+<pre><code>#!/bin/sh
+songId=$1
+
+parseJson () {
+  python -c &quot;import json,sys;sys.stdout.write(json.dumps(json.load(sys.stdin)$1))&quot;;
+}
+
+fetch () {
+  local output=`wget -q --method GET --progress=dot --output-document - http://api.mp3.zing.vn/api/mobile/song/getsonginfo?requestdata={\&quot;id\&quot;:\&quot;$songId\&quot;}`
+  local link=$(echo $output | parseJson &quot;[&#39;source&#39;][&#39;320&#39;]&quot;)
+  local artist=$(echo $output | parseJson &quot;[&#39;artist&#39;]&quot;)
+  local title=$(echo $output | parseJson &quot;[&#39;title&#39;]&quot;)
+
+  link=&quot;${link%\&quot;}&quot;
+  link=&quot;${link#\&quot;}&quot;
+  title=&quot;${title%\&quot;}&quot;
+  title=&quot;${title#\&quot;}&quot;
+  artist=&quot;${artist%\&quot;}&quot;
+  artist=&quot;${artist#\&quot;}&quot;
+
+  local fileName=`echo &quot;$(echo -e $title)_$(echo -e $artist)_320kbps&quot;`
+
+  wget --method GET \
+    --header &#39;cache-control: no-cache&#39; \
+    --output-document=&quot;$fileName.mp3&quot; \
+    - $link
+}
+
+fetch
+</code></pre><p>Source: <a href="https://gist.github.com/hnq90/38eaa792ad1f19df6f88345477c5badb">https://gist.github.com/hnq90/38eaa792ad1f19df6f88345477c5badb</a></p>
 
                 <div class="fb-comments" data-href="{{url absolute="true"}}" data-width="500px" data-numpost="7"></div>
             </div>
