@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Static Blog</title>
+        <title>HuyNQ's Corner</title>
         <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&amp;subset=latin-ext,vietnamese" rel="stylesheet">
         <link href="./css/theme.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="./css/highlight/tomorrow-night.css">
@@ -8,58 +8,56 @@
         <script src="./js/highlight.pack.js"></script>
         <script src="./js/marked.js"></script>
         <script>
-        var blogTitle = 'HuyNQ\'s Blog';
-
         hljs.initHighlightingOnLoad();
-        marked.setOptions({
-            highlight: function(code) {
-                return hljs.highlightAuto(code).value;
+        marked.setOptions({ highlight: (code) => hljs.highlightAuto(code).value });
+
+        const blogTitle = 'HuyNQ\'s Corner';
+        const launch = () => {
+            const body = document.querySelector('.main');
+            const pageSlug = window.location.hash.replace(/#/g, '');
+            let file = null;
+
+            if (pageSlug) {
+                file = `${pageSlug}.md`;
             }
-        });
 
-        var open = function(url) {
-            return new Promise(function(resolve, reject) {
-                var xhr = new XMLHttpRequest;
-                xhr.open('GET', url, true);
-
-                xhr.onload = function() {
-                    if (xhr.status == 200) {
-                        resolve(xhr.response);
-                    } else {
-                        reject();
-                    }
-                };
-
-                xhr.onerror = function() {
-                    reject();
-                }
-
-                xhr.send();
-            });
-        };
-
-        var launch = function() {
-            var body = document.querySelector(".main");
-            var file = window.location.hash.replace(/#/g, '') + '.md';
             if (body != undefined) {
-                open('./posts/' + file).then(function(data) {
-                    if (data != '') {
-                        var lines = data.split('\n');
-                        var title = blogTitle;
-                        if (lines.length > 0) title = lines[0].replace(/#/g, '') + ' | ' + blogTitle;
-                        body.innerHTML = marked(data);
-                        document.title = title;
-                    }
-                }, function() {
-                    open('./posts/home.md').then(function(data) {
+                if (file && file !== 'home.md') {
+                    fetch(`./posts/${file}`)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.text();
+                        }
+                        return '';
+                    })
+                    .then(data => {
+                        if (data !== '') {
+                            let lines = data.split('\n');
+                            let title = blogTitle;
+                            if (lines.length > 0) {
+                                title = lines[0].replace(/#/g, '') + ' | ' + blogTitle;
+                            }
+                            body.innerHTML = marked(data);
+                            document.title = title;
+                        }
+                    });
+                } else {
+                    fetch('./posts/home.md')
+                    .then(response => {
+                        if (response.ok) {
+                            return response.text();
+                        }
+                        return '';
+                    })
+                    .then(data => {
                         document.title = blogTitle;
                         body.innerHTML = marked(data);
                     });
-                });
+                }
             }
         };
 
-        var startup = function() {
+        const startup = () => {
             launch();
         };
         </script>

@@ -44,7 +44,9 @@ fs.readdir(__dirname + '/posts/', (err, files) => {
 
 
 fs.readdir(__dirname + '/posts/', (err, files) => {
-  if (err) return;
+  if (err) {
+    return;
+  }
   files.forEach(f => {
     if (f.indexOf('.md') > -1) {
       let htmlOutput = __dirname + '/posts/' + f.replace('.md', '.html'),
@@ -53,8 +55,9 @@ fs.readdir(__dirname + '/posts/', (err, files) => {
         metaData = '';
 
       fs.readFile(__dirname + '/posts/' + f, (err, data) => {
-        if (err)
+        if (err) {
           throw err;
+        }
         if (data) {
           let markdownPost = data.toString('utf8'),
             lines = markdownPost.split('\n'),
@@ -74,10 +77,11 @@ fs.readdir(__dirname + '/posts/', (err, files) => {
           htmlContent = htmlContent.replace('{%title%}', title);
           htmlContent = htmlContent.replace('{%meta%}', metaData);
           fs.writeFile(htmlOutput, htmlContent, err => {
-            if (err)
+            if (err) {
               throw err;
-            else
+            } else {
               console.log('>>', htmlOutput);
+            }
           });
         }
       });
